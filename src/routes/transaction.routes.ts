@@ -9,13 +9,15 @@ const transactionsRepository = new TransactionsRepository();
 
 /**
  * [x] GET /transactions: Essa rota deve retornar uma listagem com todas as transações
- *                          que você cadastrou até agora
+ *                          que você cadastrou até agora junto com o valor
+ *                          de soma de entradas, retiradas e total de crédito
  */
 transactionRouter.get('/', (request, response) => {
   try {
     const transactions = transactionsRepository.all();
+    const balance = transactionsRepository.getBalance();
 
-    return response.json(transactions);
+    return response.json({ transactions, balance });
   } catch (err) {
     return response.status(400).json({ error: err.message });
   }
